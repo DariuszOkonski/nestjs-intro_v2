@@ -5,7 +5,11 @@ import { ITask } from './task.model';
 export class TasksService {
   private tasks: ITask[] = [];
 
-  findAll() {
-    return [];
+  findAll(): ITask[] {
+    return this.tasks;
+  }
+
+  findOne(id: string): ITask | undefined {
+    return this.tasks.find((task) => task.id === id);
   }
 }
