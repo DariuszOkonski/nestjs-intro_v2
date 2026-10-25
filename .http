@@ -24,5 +24,7 @@ Content-Type: {{contentType}}
 POST {{baseUrl}}/tasks
 Content-Type: {{contentType}}
 {
+  "title": null,
+  "description": "Complete the NestJS course",
   "status": "XXX"
 }
