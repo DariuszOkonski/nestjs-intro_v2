@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 export class TasksService {
   private tasks: ITask[] = [
     {
-      id: '1',
+      id: 'fd63d764-d961-4c28-82fa-b9c90fdedb71',
       title: 'title',
       description: 'description',
       status: TaskStatus.OPEN,
