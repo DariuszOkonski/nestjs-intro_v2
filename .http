@@ -33,3 +33,10 @@ Content-Type: {{contentType}}
   "description": "Complete the NestJS course",
   "status": "XXX"
 }
+
+### update task status
+PATCH {{baseUrl}}/tasks/fd63d764-d961-4c28-82fa-b9c90fdedb71/status
+Content-Type: {{contentType}}
+{
+  "status": "IN_PROGRESS"
+}
