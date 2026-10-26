@@ -6,6 +6,9 @@ import {
   Param,
   Post,
   Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import type { ITask } from './task.model';
@@ -41,6 +44,16 @@ export class TasksController {
     const task = this.findOneOrFail(params.id);
     task.status = body.status;
     return task;
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deleteTask(@Param() params: FindOneParams): void {
+    const task = this.findOneOrFail(params.id);
+
+    if (task) {
+      this.tasksService.deleteTask(params.id);
+    }
   }
 
   private findOneOrFail(id: string): ITask {
