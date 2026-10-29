@@ -1,20 +1,20 @@
 import {
   Body,
   Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Patch,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import type { ITask } from './task.model';
 import { CreateTaskDto } from './create-task.dto';
 import { FindOneParams } from './find-one-params.dto';
-import { UpdateTaskStatusDto } from './update-task-status.dto';
+import type { ITask } from './task.model';
+import { TasksService } from './tasks.service';
+import { UpdateTaskDto } from './update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -36,14 +36,24 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
-  @Patch('/:id/status')
-  public updateTaskStatus(
+  // @Patch('/:id/status')
+  // public updateTaskStatus(
+  //   @Param() params: FindOneParams,
+  //   @Body() body: UpdateTaskStatusDto,
+  // ): ITask {
+  //   const task = this.findOneOrFail(params.id);
+  //   task.status = body.status;
+  //   return task;
+  // }
+
+  @Patch('/:id')
+  public updateTask(
     @Param() params: FindOneParams,
-    @Body() body: UpdateTaskStatusDto,
+    @Body() updateTaskDto: UpdateTaskDto,
   ): ITask {
     const task = this.findOneOrFail(params.id);
-    task.status = body.status;
-    return task;
+
+    return this.tasksService.updateTask(task, updateTaskDto);
   }
 
   @Delete('/:id')
@@ -51,9 +61,7 @@ export class TasksController {
   public deleteTask(@Param() params: FindOneParams): void {
     const task = this.findOneOrFail(params.id);
 
-    if (task) {
-      this.tasksService.deleteTask(params.id);
-    }
+    this.tasksService.deleteTask(task);
   }
 
   private findOneOrFail(id: string): ITask {
