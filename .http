@@ -3,8 +3,9 @@
 @contentType = application/json
 
 #The basic request
-GET {{baseUrl}}
+# GET {{baseUrl}}
 
+### get all tasks
 GET {{baseUrl}}/tasks
 
 ### wrong UUID format
@@ -19,6 +20,7 @@ GET {{baseUrl}}/tasks/fd63d764-d961-4c28-82fa-b9c90fdedb71
 ### create new task
 POST {{baseUrl}}/tasks
 Content-Type: {{contentType}}
+
 {
   "title": "Learn NestJS",
   "description": "Complete the NestJS course",
@@ -28,6 +30,7 @@ Content-Type: {{contentType}}
 ### validation error = status is incorrect
 POST {{baseUrl}}/tasks
 Content-Type: {{contentType}}
+
 {
   "title": null,
   "description": "Complete the NestJS course",
@@ -35,11 +38,12 @@ Content-Type: {{contentType}}
 }
 
 ### update task status
-PATCH {{baseUrl}}/tasks/fd63d764-d961-4c28-82fa-b9c90fdedb71/status
+PATCH {{baseUrl}}/tasks/fd63d764-d961-4c28-82fa-b9c90fdedb71
 Content-Type: {{contentType}}
+
 {
   "status": "IN_PROGRESS"
 }
 
 ### delete task
-DELETE {{baseUrl}}/tasks/fd63d764-d961-4c28-82fa-b9c90fdedb71
+DELETE {{baseUrl}}/tasks/b1acf4e8-3b76-4801-a7a9-f8ca0da59fd7
