@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ITask, TaskStatus } from './task.model';
+import { ITask } from './task.model';
 import { CreateTaskDto } from './create-task.dto';
 import { randomUUID } from 'crypto';
 import { UpdateTaskDto } from './update-task.dto';
@@ -7,12 +7,12 @@ import { UpdateTaskDto } from './update-task.dto';
 @Injectable()
 export class TasksService {
   private tasks: ITask[] = [
-    {
-      id: 'fd63d764-d961-4c28-82fa-b9c90fdedb71',
-      title: 'title',
-      description: 'description',
-      status: TaskStatus.OPEN,
-    },
+    // {
+    //   id: 'fd63d764-d961-4c28-82fa-b9c90fdedb71',
+    //   title: 'title',
+    //   description: 'description',
+    //   status: TaskStatus.OPEN,
+    // },
   ];
 
   findAll(): ITask[] {
