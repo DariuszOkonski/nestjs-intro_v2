@@ -25,7 +25,7 @@ Content-Type: {{contentType}}
 {
   "title": "Learn NestJS",
   "description": "Complete the NestJS course",
-  "status": "OPEN"
+  "status": "DONE"
 }
 ### Set the task id
 @taskId = {{ createTask.response.body.id }}
@@ -46,7 +46,7 @@ PATCH {{baseUrl}}/tasks/{{taskId}}
 Content-Type: {{contentType}}
 
 {
-  "status": "IN_PROGRESS"
+  "status": "OPEN"
 }
 
 ### delete task
