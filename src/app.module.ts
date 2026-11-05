@@ -5,13 +5,22 @@ import { DummyService } from './dummy/dummy.service';
 import { MessageFormatterService } from './message-formatter/message-formatter.service';
 import { LoggerService } from './logger/logger.service';
 import { TasksModule } from './tasks/tasks.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig } from './config/app.config';
-import { appConfigSchema } from './config/config.types';
+import { appConfigSchema, ConfigType } from './config/config.types';
 import { typeOrmConfig } from './config/database.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<ConfigType>) => ({
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        ...configService.get('database'),
+      }),
+    }),
     ConfigModule.forRoot({
       load: [appConfig, typeOrmConfig],
       validationSchema: appConfigSchema,
