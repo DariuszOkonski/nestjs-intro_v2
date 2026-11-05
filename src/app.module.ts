@@ -1,22 +1,23 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DummyService } from './dummy/dummy.service';
-import { MessageFormatterService } from './message-formatter/message-formatter.service';
-import { LoggerService } from './logger/logger.service';
-import { TasksModule } from './tasks/tasks.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig } from './config/app.config';
-import { appConfigSchema, ConfigType } from './config/config.types';
+import { appConfigSchema } from './config/config.types';
 import { typeOrmConfig } from './config/database.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypedConfigService } from './config/typed-config.service';
+import { DummyService } from './dummy/dummy.service';
+import { LoggerService } from './logger/logger.service';
+import { MessageFormatterService } from './message-formatter/message-formatter.service';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService<ConfigType>) => ({
+      useFactory: (configService: TypedConfigService) => ({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         ...configService.get('database'),
       }),
@@ -32,6 +33,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TasksModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DummyService, MessageFormatterService, LoggerService],
+  providers: [
+    AppService,
+    DummyService,
+    MessageFormatterService,
+    LoggerService,
+    {
+      provide: TypedConfigService,
+      useExisting: ConfigService,
+    },
+  ],
 })
 export class AppModule {}
