@@ -11,6 +11,7 @@ import { DummyService } from './dummy/dummy.service';
 import { LoggerService } from './logger/logger.service';
 import { MessageFormatterService } from './message-formatter/message-formatter.service';
 import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/task.entity';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TasksModule } from './tasks/tasks.module';
       useFactory: (configService: TypedConfigService) => ({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         ...configService.get('database'),
+        entities: [Task],
       }),
     }),
     ConfigModule.forRoot({

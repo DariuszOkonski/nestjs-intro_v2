@@ -14,6 +14,7 @@ export const appConfigSchema = Joi.object({
   DB_USER: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
   DB_DATABASE: Joi.string().required(),
+  DB_SYNC: Joi.number().valid(0, 1).required(),
   // DB_USER: Joi.string().default('postgres'),
   // DB_PASSWORD: Joi.string().default('postgres'),
   // DB_DATABASE: Joi.string().default('tasks'),
