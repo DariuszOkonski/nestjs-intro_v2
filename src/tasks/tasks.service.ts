@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ITask, TaskStatus } from './task.model';
 import { CreateTaskDto } from './create-task.dto';
-import { randomUUID } from 'crypto';
 import { UpdateTaskDto } from './update-task.dto';
 import { WrongTaskStatusException } from './exceptions/wrong-task-status.exception';
 import { Repository } from 'typeorm';
@@ -10,37 +9,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TasksService {
-  private tasks: ITask[] = [
-    // {
-    //   id: 'fd63d764-d961-4c28-82fa-b9c90fdedb71',
-    //   title: 'title',
-    //   description: 'description',
-    //   status: TaskStatus.OPEN,
-    // },
-  ];
-
   constructor(
     @InjectRepository(Task)
     private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  findAll(): ITask[] {
-    return this.tasks;
+  async findAll(): Promise<Task[]> {
+    return await this.tasksRepository.find();
   }
 
-  findOne(id: string): ITask | undefined {
-    return this.tasks.find((task) => task.id === id);
+  async findOne(id: string): Promise<Task | null> {
+    return await this.tasksRepository.findOneBy({ id });
   }
 
-  create(createTaskDto: CreateTaskDto): ITask {
-    const task: ITask = {
-      id: randomUUID(),
-      ...createTaskDto,
-    };
-
-    this.tasks.push(task);
-
-    return task;
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return await this.tasksRepository.save(createTaskDto);
   }
 
   updateTask(task: ITask, updateTaskDto: UpdateTaskDto): ITask {
