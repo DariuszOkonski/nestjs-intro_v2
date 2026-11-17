@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ITask, TaskStatus } from './task.model';
+import { TaskStatus } from './task.model';
 import { CreateTaskDto } from './create-task.dto';
 import { UpdateTaskDto } from './update-task.dto';
 import { WrongTaskStatusException } from './exceptions/wrong-task-status.exception';
@@ -26,7 +26,7 @@ export class TasksService {
     return await this.tasksRepository.save(createTaskDto);
   }
 
-  updateTask(task: ITask, updateTaskDto: UpdateTaskDto): ITask {
+  async updateTask(task: Task, updateTaskDto: UpdateTaskDto): Promise<Task> {
     if (
       updateTaskDto.status &&
       !this.isValidStatusTransiton(task.status, updateTaskDto.status)
@@ -36,13 +36,11 @@ export class TasksService {
 
     Object.assign(task, updateTaskDto);
 
-    return task;
+    return await this.tasksRepository.save(task);
   }
 
-  deleteTask(task: ITask): void {
-    this.tasks = this.tasks.filter(
-      (filteredTask) => filteredTask.id !== task.id,
-    );
+  async deleteTask(task: Task): Promise<void> {
+    await this.tasksRepository.delete(task.id);
   }
 
   private isValidStatusTransiton(
